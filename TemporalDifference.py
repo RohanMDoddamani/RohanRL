@@ -8,22 +8,19 @@ env = gym.make("FrozenLake-v1", is_slippery=True)
 
 # Parameters
 alpha = 0.1         # learning rate
-gamma = 0.7        # discount factor
+gamma = 0.9        # discount factor
 num_episodes = 5000
 
 
-V = {i:0 for i in range(env.observation_space.n)}
-
-def policy(state):
-    return np.random.choice([1, 2])  # down or right
+V = {i:0.01 for i in range(env.observation_space.n)}
 
 # TD(0) algorithm
 for episode in range(100):
-    state = env.reset()[0]  # Gym v0.26+ returns (obs, info)
+    state = env.reset()[0]  
     done = False
 
     while not done:
-        action = policy(state)
+        action = env.action_space.sample()
         next_state, reward, done, truncated, info = env.step(action)
 
         V[state] += alpha * (reward + gamma * V[next_state] - V[state])
