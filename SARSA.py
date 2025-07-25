@@ -1,19 +1,20 @@
-import gym
+import gymnasium as gym
 import numpy as np
-import matplotlib.pyplot as plt
-from collections import defaultdict
 
-# Environment
-env = gym.make("FrozenLake-v1", is_slippery=False)  # deterministic version
+
+
+env = gym.make("FrozenLake-v1", is_slippery=True) 
 
 # Parameters
-alpha = 0.1
-gamma = 0.99
+alpha = 0.01
+gamma = 0.9
 epsilon = 0.1         # for epsilon-greedy
 num_episodes = 5000
 
-# Initialize Q-table
-Q = defaultdict(lambda: np.zeros(env.action_space.n))
+
+Q = {i:[0.0001 for j in range(env.action_space.n)] for i in range(env.observation_space.n)}
+
+V = {i:0.00001 for i in range(env.observation_space.n)}
 
 # Epsilon-greedy policy
 def epsilon_greedy_policy(state, epsilon):
@@ -23,7 +24,7 @@ def epsilon_greedy_policy(state, epsilon):
         return np.argmax(Q[state])
 
 # SARSA learning
-for episode in range(num_episodes):
+for episode in range(1000):
     state = env.reset()[0]
     action = epsilon_greedy_policy(state, epsilon)
     done = False
@@ -40,19 +41,13 @@ for episode in range(num_episodes):
         state = next_state
         action = next_action
 
-# Compute value function from Q
-V = np.zeros(env.observation_space.n)
+
+
 for state in range(env.observation_space.n):
     V[state] = np.max(Q[state])  # value under greedy policy
 
-# Reshape to 4x4 grid and visualize
-V_grid = V.reshape((4, 4))
 
-plt.figure(figsize=(6, 6))
-plt.imshow(V_grid, cmap="coolwarm", interpolation="nearest")
-plt.colorbar(label="State Value")
-plt.title("State-Value Function Learned by SARSA")
-for i in range(4):
-    for j in range(4):
-        plt.text(j, i, f"{V_grid[i, j]:.2f}", ha='center', va='center', color='black')
-plt.show()
+for s in range(env.observation_space.n):
+    print(f"V({s}) = {V[s]}")
+
+
