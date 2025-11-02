@@ -10,7 +10,6 @@ env = gym.make("CartPole-v1")
 learning_rate = 1e-2 #0.001
 gamma = 0.6
 
-# nn
 # Actor-Critic Network
 class A2CNet(nn.Module):
     def __init__(self, state_dim, action_dim):
