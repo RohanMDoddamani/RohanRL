@@ -4,22 +4,6 @@ HIRO (Nachum et al., ICML 2018) is a two-level Hierarchical Reinforcement Learni
 It introduces a manager–worker architecture, where the high-level policy sets subgoals and the low-level policy executes primitive actions to achieve them.
 HIRO achieves sample-efficient and stable learning through off-policy correction.
 
-# 📘 Table of Contents
-
-Overview
-Architecture
-Algorithm Highlights
-Code Structure
-Installation
-Usage
-Training Process
-Hyperparameters
-References
-
-
-
-
-
 # 🚀 Overview
 
 HIRO stands for Hierarchical Reinforcement Learning with Off-Policy Correction.
@@ -58,4 +42,5 @@ Conference: ICML 2018
                              │
                              ▼
                      Environment Dynamics
+
 
