@@ -15,14 +15,6 @@ Worker (Low-level policy): executes actions to achieve the current subgoal using
 
 This architecture allows efficient learning in long-horizon environments where flat RL struggles.
 
-# 🧩 Paper Reference:
-
-Title: Data-Efficient Hierarchical Reinforcement Learning
-Authors: Ofir Nachum, Shixiang Gu, Honglak Lee, Sergey Levine
-Conference: ICML 2018
-[Paper Link]
-
-
 # 🏗️ Architecture
         ┌──────────────────────────────────────────────┐
         │                  Manager                     │
@@ -42,5 +34,6 @@ Conference: ICML 2018
                              │
                              ▼
                      Environment Dynamics
+
 
 
