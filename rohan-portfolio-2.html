@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohan M Doddamani — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#091a2c;
+    --navy:#0e2a47;
+    --navy-light:#123457;
+    --navy-lighter:#184573;
+    --cyan:#6fb7e8;
+    --cyan-bright:#a9dcfb;
+    --paper:#eaf2f8;
+    --slate:#83a0b8;
+    --amber:#ffb454;
+    --line: rgba(111,183,232,0.28);
+    --line-strong: rgba(111,183,232,0.55);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--navy-deep);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* blueprint grid backdrop */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 42px 42px;
+    opacity:0.35;
+    pointer-events:none;
+    z-index:0;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    background-size: 210px 210px;
+    opacity:0.18;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .crop{
+    position:fixed;
+    width:18px; height:18px;
+    z-index:5;
+    pointer-events:none;
+  }
+  .crop::before, .crop::after{
+    content:"";
+    position:absolute;
+    background:var(--cyan);
+    opacity:0.6;
+  }
+  .crop::before{ width:100%; height:1px; top:50%; left:0; }
+  .crop::after{ width:1px; height:100%; left:50%; top:0; }
+  .crop.tl{ top:16px; left:16px; }
+  .crop.tr{ top:16px; right:16px; }
+  .crop.bl{ bottom:16px; left:16px; }
+  .crop.br{ bottom:16px; right:16px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em; }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  a{ color:inherit; }
+
+  /* ===== NAV ===== */
+  nav{
+    position:sticky; top:0; z-index:10;
+    background:rgba(9,26,44,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-strong);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:18px 32px; }
+  .nav-mark{ font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.08em; color:var(--cyan); }
+  .nav-links{ display:flex; gap:28px; list-style:none; }
+  .nav-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--slate);
+    text-decoration:none;
+    transition:color .2s;
+  }
+  .nav-links a:hover{ color:var(--cyan-bright); }
+
+  /* ===== SECTION LABEL ===== */
+  .fig-label{
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:44px;
+  }
+  .fig-label span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--amber);
+    white-space:nowrap;
+  }
+  .fig-label .dim{
+    flex:1; height:1px; background:var(--line-strong);
+    position:relative;
+  }
+  .fig-label .dim::before, .fig-label .dim::after{
+    content:"";
+    position:absolute; top:-4px;
+    width:1px; height:9px;
+    background:var(--line-strong);
+  }
+  .fig-label .dim::before{ left:0; }
+  .fig-label .dim::after{ right:0; }
+
+  section{ padding:100px 0; position:relative; }
+  section + section{ border-top:1px solid var(--line); }
+
+  /* ===== HERO ===== */
+  .hero{ padding-top:120px; padding-bottom:80px; min-height:92vh; display:flex; align-items:center; }
+  .hero .wrap{ display:grid; grid-template-columns: 1.05fr 0.95fr; gap:40px; align-items:center; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; letter-spacing:0.16em; color:var(--cyan);
+    text-transform:uppercase;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:26px; height:1px; background:var(--cyan); display:inline-block; }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4rem);
+    line-height:1.04;
+    color:var(--paper);
+    margin-bottom:18px;
+  }
+  .hero h1 .thin{ color:var(--slate); font-weight:400; display:block; font-size:0.42em; margin-top:14px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.04em; }
+  .hero p.summary{
+    color:var(--slate);
+    font-size:17px;
+    max-width:52ch;
+    margin-bottom:34px;
+  }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    padding:13px 22px;
+    border:1px solid var(--line-strong);
+    text-decoration:none;
+    color:var(--paper);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:all .2s;
+  }
+  .btn.primary{ background:var(--cyan); color:var(--navy-deep); border-color:var(--cyan); font-weight:500; }
+  .btn.primary:hover{ background:var(--cyan-bright); border-color:var(--cyan-bright); }
+  .btn:not(.primary):hover{ border-color:var(--cyan); color:var(--cyan-bright); }
+
+  /* hero diagram */
+  .diagram-box{
+    position:relative;
+    aspect-ratio: 1/1;
+  }
+  .diagram-box svg{ width:100%; height:100%; }
+  .node-label{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; fill:var(--slate); letter-spacing:0.03em; }
+  .node-label.center{ fill:var(--paper); font-size:12px; }
+  .edge-line{ stroke:var(--line-strong); stroke-width:1; fill:none; }
+  .notation{ font-family:'IBM Plex Mono', monospace; font-size:10px; fill:var(--amber); opacity:0.85; }
+  .node-dot{ fill:var(--navy-deep); stroke:var(--cyan); stroke-width:1.4; }
+  .node-dot.core{ stroke:var(--amber); }
+
+  /* ===== EXPERIENCE ===== */
+  .role{ display:grid; grid-template-columns: 190px 1fr; gap:28px; margin-bottom:64px; }
+  .role:last-child{ margin-bottom:0; }
+  .role-meta{ position:relative; padding-left:24px; }
+  .role-meta::before{ content:""; position:absolute; left:0; top:4px; width:9px; height:9px; border:1.4px solid var(--cyan); transform:rotate(45deg); }
+  .role-meta .dates{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--amber); letter-spacing:0.02em; margin-bottom:6px; }
+  .role-meta .loc{ font-size:13px; color:var(--slate); }
+  .role-body h3{ font-size:22px; color:var(--paper); margin-bottom:2px; }
+  .role-body .title{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:16px; display:block;}
+  .role-body ul{ list-style:none; }
+  .role-body li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:12px;
+    color:var(--slate);
+    font-size:14.5px;
+    line-height:1.65;
+  }
+  .role-body li::before{ content:"→"; position:absolute; left:0; color:var(--cyan); }
+  .role-body li b{ color:var(--paper); font-weight:500; }
+
+  /* ===== SKILLS ===== */
+  .skill-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:36px 32px; }
+  .skill-cat{ border-top:1px solid var(--line-strong); padding-top:14px; }
+  .skill-cat h4{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.1em;
+    color:var(--amber);
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--paper);
+    border:1px solid var(--line-strong);
+    padding:5px 10px;
+    white-space:nowrap;
+  }
+
+  /* ===== PROJECTS ===== */
+  .proj-grid{ display:flex; flex-direction:column; gap:56px; }
+  .proj-card{
+    display:grid;
+    grid-template-columns: 340px 1fr;
+    gap:36px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(111,183,232,0.03), transparent);
+    padding:28px;
+  }
+  .proj-visual{ border:1px solid var(--line-strong); background:var(--navy); display:flex; align-items:center; justify-content:center; padding:14px; }
+  .proj-visual svg{ width:100%; height:auto; }
+  .proj-info .tagline{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--cyan); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; }
+  .proj-info h3{ font-size:19px; color:var(--paper); margin-bottom:10px; }
+  .proj-info p{ color:var(--slate); font-size:14.5px; margin-bottom:14px; }
+  .proj-specs{ display:flex; flex-wrap:wrap; gap:8px; }
+  .proj-specs span{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--amber); border:1px solid rgba(255,180,84,0.35); padding:3px 8px; }
+
+  /* ===== EDUCATION / CERTS ===== */
+  .edu-cert-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:60px; }
+  .edu-block .school{ font-size:19px; color:var(--paper); margin-bottom:4px; }
+  .edu-block .degree{ color:var(--slate); font-size:14px; margin-bottom:6px; }
+  .edu-block .yr{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--cyan); }
+  .cert-list{ list-style:none; }
+  .cert-list li{
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    font-size:13.5px;
+  }
+  .cert-list li:first-child{ padding-top:0; }
+  .cert-list .cname{ color:var(--paper); }
+  .cert-list .cissuer{ font-family:'IBM Plex Mono', monospace; color:var(--slate); font-size:12px; white-space:nowrap; }
+
+  /* ===== FOOTER / CONTACT ===== */
+  footer{ padding:90px 0 60px; text-align:center; }
+  footer h2{ font-size:clamp(2rem,4vw,2.8rem); margin-bottom:18px; }
+  footer p{ color:var(--slate); margin-bottom:34px; }
+  .contact-row{ display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:60px; }
+  .foot-meta{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--slate); letter-spacing:0.05em; }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (max-width: 860px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .diagram-box{ max-width:420px; margin:0 auto; }
+    .role{ grid-template-columns:1fr; }
+    .skill-grid{ grid-template-columns:1fr 1fr; }
+    .proj-card{ grid-template-columns:1fr; }
+    .edu-cert-grid{ grid-template-columns:1fr; gap:40px; }
+    .nav-links{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="crop tl"></div><div class="crop tr"></div><div class="crop bl"></div><div class="crop br"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-mark">ROHAN // AI-ENGINEER.SPEC</div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Bangalore, India</div>
+      <h1>Rohan M<br>Doddamani
+        <span class="thin">AI ENGINEER — VOICE INTERFACES / REINFORCEMENT LEARNING / RAG</span>
+      </h1>
+      <p class="summary">4.5 years building voice user-interface AI and decision systems — currently leading the AI stylist at Lenskart that recommends eyewear using deep learning and reinforcement learning. Formerly built demand-forecasting and dynamic-pricing RL engines at redBus.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="mailto:rohan136.md@gmail.com">Email — rohan136.md@gmail.com</a>
+        <a class="btn" href="https://linkedin.com/in/rohan-m-doddamani" target="_blank">LinkedIn ↗</a>
+        <a class="btn" href="https://github.com/RohanMDoddamani/RohanRL" target="_blank">GitHub ↗</a>
+        <a class="btn" href="tel:+919353110456">+91 93531 10456</a>
+      </div>
+    </div>
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 420 420">
+        <!-- edges -->
+        <g class="edge-line">
+          <line x1="210" y1="210" x2="210" y2="70"/>
+          <line x1="210" y1="210" x2="356" y2="140"/>
+          <line x1="210" y1="210" x2="356" y2="290"/>
+          <line x1="210" y1="210" x2="210" y2="356"/>
+          <line x1="210" y1="210" x2="64" y2="290"/>
+          <line x1="210" y1="210" x2="64" y2="140"/>
+        </g>
+        <!-- outer nodes -->
+        <circle class="node-dot" cx="210" cy="70" r="5"/>
+        <text class="node-label" x="222" y="66">REINFORCEMENT LEARNING</text>
+        <text class="notation" x="222" y="80">π(a|s), ∇θJ(θ)</text>
+
+        <circle class="node-dot" cx="356" cy="140" r="5"/>
+        <text class="node-label" x="330" y="128" text-anchor="end">GRAPH RAG</text>
+        <text class="notation" x="330" y="152" text-anchor="end">fusion query</text>
+
+        <circle class="node-dot" cx="356" cy="290" r="5"/>
+        <text class="node-label" x="330" y="304" text-anchor="end">COMPUTER VISION</text>
+        <text class="notation" x="330" y="318" text-anchor="end">ONNX · quant.</text>
+
+        <circle class="node-dot" cx="210" cy="356" r="5"/>
+        <text class="node-label" x="222" y="374">MLOPS / GKE</text>
+        <text class="notation" x="222" y="388">autoscale · trace</text>
+
+        <circle class="node-dot" cx="64" cy="290" r="5"/>
+        <text class="node-label" x="90" y="304">VECTOR SEARCH</text>
+        <text class="notation" x="90" y="318">Qdrant · re-rank</text>
+
+        <circle class="node-dot" cx="64" cy="140" r="5"/>
+        <text class="node-label" x="90" y="128">POMDP</text>
+        <text class="notation" x="90" y="152">b(s), Q(s,a)</text>
+
+        <!-- center -->
+        <circle class="node-dot core" cx="210" cy="210" r="9"/>
+        <text class="node-label center" text-anchor="middle" x="210" y="238">R. DODDAMANI</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="fig-label"><span>FIG. 01 — EXPERIENCE</span><div class="dim"></div></div>
+
+    <div class="role reveal">
+      <div class="role-meta">
+        <div class="dates mono">12/2025 — PRESENT</div>
+        <div class="loc">Bangalore, India</div>
+      </div>
+      <div class="role-body">
+        <h3>GeoIQ (Lenskart Organization)</h3>
+        <span class="title">AI Engineer</span>
+        <ul>
+          <li>Refined recommendation logic with <b>hybrid vector search and re-ranking</b> via Qdrant, improving match accuracy for <b>80%</b> of user requests.</li>
+          <li>Lifted purchase engagement by <b>25%</b> by integrating Graph RAG — extracting a knowledge graph combined with fusion query results.</li>
+          <li>Benchmarked models on <b>VLLM</b> across GPU devices, comparing size, bandwidth, latency and throughput to select the right model per task.</li>
+          <li>Optimised vision models via <b>ONNX conversion</b>, and compressed embedding models through pruning and quantization.</li>
+          <li>Automated fine-tuning of embedding models, raising query accuracy to <b>95%</b>.</li>
+          <li>Deployed and auto-scaled the AI agent on <b>Google Kubernetes Engine</b> with Prometheus &amp; Grafana, monitoring <b>8k</b> session logs.</li>
+          <li>Integrated LangFuse for agent tracing, CleverTap for tap events, and Slack alerts for API failures — cutting debugging time.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role reveal">
+      <div class="role-meta">
+        <div class="dates mono">12/2021 — 09/2025</div>
+        <div class="loc">Bangalore, India</div>
+      </div>
+      <div class="role-body">
+        <h3>redBus</h3>
+        <span class="title">Software Engineer</span>
+        <ul>
+          <li>Trained <b>reinforcement learning</b> models in parallel on GPU to forecast ticket demand from millions of past bookings and weather data — a <b>7–8%</b> profit increase.</li>
+          <li>Built a dynamic pricing engine using <b>Thompson Sampling</b> over real-time inventory and competitor rates to maximise ticket profit.</li>
+          <li>Integrated RAG into a self-help chatbot answering travel, ticketing and cancellation-policy queries.</li>
+          <li>Improved SEO and Core Web Vitals through Webpack bundling, code-splitting and asset preloading — an <b>18%</b> page-load speed boost.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="fig-label"><span>FIG. 02 — SKILLS</span><div class="dim"></div></div>
+    <div class="skill-grid">
+      <div class="skill-cat reveal">
+        <h4>Languages</h4>
+        <div class="tag-row">
+          <span class="tag">Python</span><span class="tag">C</span><span class="tag">C++</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>AI / ML</h4>
+        <div class="tag-row">
+          <span class="tag">GenAI</span><span class="tag">Agentic AI</span><span class="tag">Deep Learning</span>
+          <span class="tag">Reinforcement Learning</span><span class="tag">CNNs</span><span class="tag">NLP</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Frameworks</h4>
+        <div class="tag-row">
+          <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">Hugging Face</span>
+          <span class="tag">Transformers</span><span class="tag">Triton</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Infra / MLOps</h4>
+        <div class="tag-row">
+          <span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span><span class="tag">Jenkins</span><span class="tag">MLOps</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Compute &amp; Data</h4>
+        <div class="tag-row">
+          <span class="tag">GPU</span><span class="tag">NPU</span><span class="tag">CUDA</span>
+          <span class="tag">ChromaDB</span><span class="tag">Qdrant DB</span><span class="tag">Graph RAG</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Theory</h4>
+        <div class="tag-row">
+          <span class="tag">Randomised Algorithms</span><span class="tag">Stochastic Approximation</span>
+          <span class="tag">Linear Algebra</span><span class="tag">Probability &amp; Statistics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="fig-label"><span>FIG. 03 — PROJECTS</span><div class="dim"></div></div>
+
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-visual">
+          <svg viewBox="0 0 300 220">
+            <text class="notation" x="150" y="20" text-anchor="middle">MANAGER / WORKER HIERARCHY</text>
+            <circle class="node-dot core" cx="150" cy="46" r="8"/>
+            <text class="node-label" x="150" y="30" text-anchor="middle">MANAGER (fleet)</text>
+            <g class="edge-line">
+              <line x1="150" y1="46" x2="60" y2="120"/>
+              <line x1="150" y1="46" x2="150" y2="120"/>
+              <line x1="150" y1="46" x2="240" y2="120"/>
+            </g>
+            <circle class="node-dot" cx="60" cy="120" r="6"/>
+            <circle class="node-dot" cx="150" cy="120" r="6"/>
+            <circle class="node-dot" cx="240" cy="120" r="6"/>
+            <text class="node-label" x="60" y="140" text-anchor="middle">WORKER 1</text>
+            <text class="node-label" x="150" y="140" text-anchor="middle">WORKER 2</text>
+            <text class="node-label" x="240" y="140" text-anchor="middle">WORKER 3</text>
+            <g class="edge-line">
+              <line x1="60" y1="126" x2="60" y2="176"/>
+              <line x1="150" y1="126" x2="150" y2="176"/>
+              <line x1="240" y1="126" x2="240" y2="176"/>
+            </g>
+            <text class="notation" x="60" y="192" text-anchor="middle">micro-sched</text>
+            <text class="notation" x="150" y="192" text-anchor="middle">micro-sched</text>
+            <text class="notation" x="240" y="192" text-anchor="middle">micro-sched</text>
+          </svg>
+        </div>
+        <div class="proj-info">
+          <div class="tagline">Hierarchical RL</div>
+          <h3>Manager / Worker fleet routing</h3>
+          <p>Architected a hierarchical reinforcement-learning model — a Manager network handling macro-level demand and fleet routing, with Worker networks handling micro-schedule adjustments beneath it.</p>
+          <div class="proj-specs"><span>Hierarchical RL</span><span>Fleet Routing</span><span>Multi-agent</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-visual">
+          <svg viewBox="0 0 300 220">
+            <text class="notation" x="150" y="20" text-anchor="middle">POMDP — BELIEF STATE</text>
+            <path class="edge-line" d="M40,150 Q90,60 150,110 T260,150" />
+            <circle class="node-dot" cx="40" cy="150" r="5"/>
+            <circle class="node-dot" cx="150" cy="110" r="5"/>
+            <circle class="node-dot core" cx="260" cy="150" r="7"/>
+            <text class="node-label" x="40" y="170" text-anchor="middle">o₁</text>
+            <text class="node-label" x="150" y="130" text-anchor="middle">o₂</text>
+            <text class="node-label" x="260" y="170" text-anchor="middle">agent</text>
+            <text class="notation" x="150" y="40" text-anchor="middle">b(s) = P(s | o₁..oₜ)</text>
+            <text class="notation" x="150" y="196" text-anchor="middle">Bayesian belief update</text>
+          </svg>
+        </div>
+        <div class="proj-info">
+          <div class="tagline">Partially Observable Environments</div>
+          <h3>Bayesian belief-based decision agents</h3>
+          <p>Enhanced agent decision-making under uncertainty by modelling environments as Partially Observable Markov Decision Processes (POMDPs), using Bayesian belief-state inference to reason over incomplete observations.</p>
+          <div class="proj-specs"><span>POMDP</span><span>Bayesian Inference</span><span>Belief State</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-visual">
+          <svg viewBox="0 0 300 220">
+            <text class="notation" x="150" y="20" text-anchor="middle">REWARD CONVERGENCE</text>
+            <g class="edge-line">
+              <line x1="30" y1="180" x2="270" y2="180"/>
+              <line x1="30" y1="180" x2="30" y2="34"/>
+            </g>
+            <path d="M30,170 Q90,150 150,110 T270,60" fill="none" stroke="#6fb7e8" stroke-width="1.4"/>
+            <path d="M30,175 Q100,168 150,140 T270,90" fill="none" stroke="#a9dcfb" stroke-width="1.2" opacity="0.6"/>
+            <path d="M30,178 Q120,176 170,165 T270,120" fill="none" stroke="#ffb454" stroke-width="1.2" opacity="0.7"/>
+            <text class="node-label" x="200" y="55">TD3</text>
+            <text class="node-label" x="200" y="86">PPO</text>
+            <text class="node-label" x="200" y="115">A2C</text>
+            <text class="notation" x="150" y="200" text-anchor="middle">REINFORCE · A2C · PPO · TD3</text>
+          </svg>
+        </div>
+        <div class="proj-info">
+          <div class="tagline">Continuous Control</div>
+          <h3>Policy-gradient control suite</h3>
+          <p>Designed continuous-control solutions across REINFORCE, A2C, PPO and TD3, comparing sample efficiency and stability for continuous action-space tasks.</p>
+          <div class="proj-specs"><span>REINFORCE</span><span>A2C</span><span>PPO</span><span>TD3</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrap">
+    <div class="fig-label"><span>FIG. 04 — EDUCATION &amp; CERTIFICATION</span><div class="dim"></div></div>
+    <div class="edu-cert-grid">
+      <div class="edu-block reveal">
+        <div class="school">PES University</div>
+        <div class="degree">Bachelor of Engineering — Computer Science and Engineering</div>
+        <div class="yr">2017 — 2021</div>
+      </div>
+      <div class="reveal">
+        <ul class="cert-list">
+          <li><span class="cname">Deep Learning</span><span class="cissuer">IIT Madras (NPTEL)</span></li>
+          <li><span class="cname">Reinforcement Learning</span><span class="cissuer">IIT Madras (NPTEL)</span></li>
+          <li><span class="cname">Machine Learning</span><span class="cissuer">IIT Madras (NPTEL)</span></li>
+          <li><span class="cname">Theory of Stochastic Approximation</span><span class="cissuer">IISc Bangalore (NPTEL)</span></li>
+          <li><span class="cname">Randomised Algorithm</span><span class="cissuer">IIT Guwahati (NPTEL)</span></li>
+          <li><span class="cname">AWS Cloud Practitioner Essentials</span><span class="cissuer">AWS</span></li>
+          <li><span class="cname">AMD AI Developer Program</span><span class="cissuer">AMD</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="fig-label"><span>FIG. 05 — CONTACT</span><div class="dim"></div></div>
+    <h2>Let's build something.</h2>
+    <p>Open to conversations on RL, RAG, and applied ML systems.</p>
+    <div class="contact-row">
+      <a class="btn primary" href="mailto:rohan136.md@gmail.com">rohan136.md@gmail.com</a>
+      <a class="btn" href="tel:+919353110456">+91 93531 10456</a>
+      <a class="btn" href="https://linkedin.com/in/rohan-m-doddamani" target="_blank">linkedin.com/in/rohan-m-doddamani ↗</a>
+      <a class="btn" href="https://github.com/RohanMDoddamani/RohanRL" target="_blank">github.com/RohanMDoddamani/RohanRL ↗</a>
+    </div>
+    <div class="foot-meta">ROHAN // BANGALORE, IN</div>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{ threshold:0.15 });
+  els.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
